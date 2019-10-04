@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>freertos_tetris_gcc</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.core.ccnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>devices</name>
+			<type>2</type>
+			<location>C:/Users/Cullen Logan/Desktop/Cullen/Ambiq/AmbiqSuite-Rel2.2.0/devices</location>
+		</link>
+		<link>
+			<name>src</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src</locationURI>
+		</link>
+		<link>
+			<name>third_party</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>utils</name>
+			<type>2</type>
+			<location>C:/Users/Cullen Logan/Desktop/Cullen/Ambiq/AmbiqSuite-Rel2.2.0/utils</location>
+		</link>
+		<link>
+			<name>third_party/FreeRTOSv10.1.1</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>third_party/FreeRTOSv10.1.1/Source</name>
+			<type>2</type>
+			<location>C:/Users/Cullen Logan/Desktop/Cullen/Ambiq/AmbiqSuite-Rel2.2.0/third_party/FreeRTOSv10.1.1/Source</location>
+		</link>
+	</linkedResources>
+</projectDescription>
