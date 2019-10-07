@@ -90,6 +90,9 @@ DEFINES+= -DAM_UTIL_FAULTISR_PRINT
 
 INCLUDES = -I../../../../../utils
 INCLUDES+= -I../src
+INCLUDES+= -I../src/gfx
+INCLUDES+= -I../src/tetriminos
+INCLUDES+= -I../src/tetris
 INCLUDES+= -I../../../../../third_party/FreeRTOSv10.1.1/Source/include
 INCLUDES+= -I../../../../../CMSIS/AmbiqMicro/Include
 INCLUDES+= -I../../../../../mcu/apollo3
@@ -104,6 +107,8 @@ VPATH+=:../../../../../devices
 VPATH+=:../src
 VPATH+=:../src/gfx
 VPATH+=:../src/linkedlist
+VPATH+=:../src/tetriminos
+VPATH+=:../src/tetris
 VPATH+=:../../../../../third_party/FreeRTOSv10.1.1/Source
 VPATH+=:../../../../../third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo2
 VPATH+=:../../../../../third_party/FreeRTOSv10.1.1/Source/portable/MemMang
@@ -121,7 +126,7 @@ SRC += am_util_faultisr.c
 SRC += am_util_stdio.c
 SRC += am_devices_button.c
 SRC += am_devices_led.c
-SRC += heap_2.c
+SRC += heap_4.c
 SRC += event_groups.c
 SRC += list.c
 SRC += queue.c
@@ -136,7 +141,12 @@ SRC += gfx_format_setup.c
 SRC += gfx_format.c
 SRC += gfx_initialize.c
 SRC += gfx_primatives.c
+SRC += gfx_clip.c
 SRC += linkedlist.c
+SRC += tetriminos.c
+SRC += buddha.c
+SRC += buddha_sideways.c
+SRC += tetris.c
 
 CSRC = $(filter %.c,$(SRC))
 ASRC = $(filter %.s,$(SRC))
@@ -147,8 +157,9 @@ OBJS+= $(ASRC:%.s=$(CONFIG)/%.o)
 DEPS = $(CSRC:%.c=$(CONFIG)/%.d)
 DEPS+= $(ASRC:%.s=$(CONFIG)/%.d)
 
-LIBS = ../../../../../mcu/apollo3/hal/gcc/bin/libam_hal.a
-LIBS += ../../../bsp/gcc/bin/libam_bsp.a
+LIBS = ../../../bsp/gcc/bin/libam_bsp.a
+LIBS += ../../../../../mcu/apollo3/hal/gcc/bin/libam_hal.a
+
 
 CFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 CFLAGS+= -ffunction-sections -fdata-sections

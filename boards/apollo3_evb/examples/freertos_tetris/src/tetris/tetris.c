@@ -1,8 +1,6 @@
 //*****************************************************************************
 //
-//! @file freertos_tetris.h
-//!
-//! @brief Global includes for the freertos_tetris app.
+//! @file tetris.c
 //
 //*****************************************************************************
 
@@ -44,59 +42,33 @@
 //
 //*****************************************************************************
 
-#ifndef FREERTOS_TETRIS_H
-#define FREERTOS_TETRIS_H
+//*****************************************************************************
+//
+// This application has a large number of common include files. For
+// convenience, we'll collect them all together in a single header and include
+// that everywhere.
+//
+//*****************************************************************************
+#include "tetris.h"
+
 
 //*****************************************************************************
 //
-// Required built-ins.
+// Enable printing to the console.
 //
 //*****************************************************************************
-#include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
+void draw_tetris_well_10_x_20(gfx_DeviceContext_t *pDC)
+{
+	gfx_Rect_t rect1 = {8,61,120,2};
+	gfx_Color_t cRGB = pDC->pPalette[PALETTE_FG_COLOR_IDX];
+	gfx_2d_FillRect(pDC,&rect1, cRGB);
+	rect1.x = 8;
+	rect1.y = 0;
+	gfx_2d_FillRect(pDC,&rect1,cRGB);
+	rect1.x = 125;
+	rect1.y = 0;
+	rect1.width = 2;
+	rect1.height = 64;
+	gfx_2d_FillRect(pDC,&rect1, cRGB);
+}
 
-//*****************************************************************************
-//
-// Standard AmbiqSuite includes.
-//
-//*****************************************************************************
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
-
-//*****************************************************************************
-//
-// FreeRTOS include files.
-//
-//*****************************************************************************
-#include "FreeRTOS.h"
-#include "task.h"
-#include "event_groups.h"
-#include "queue.h"
-
-//*****************************************************************************
-//
-// Task include files.
-//
-//*****************************************************************************
-#include "led_task.h"
-#include "main_game_task.h"
-#include "ssd1306_display.h"
-
-#include "gfx/gfx.h"
-#include "gfx/gfx_internal.h"
-#include "gfx/gfx_format.h"
-
-#include "tetriminos/tetriminos.h"
-
-//*****************************************************************************
-//
-// External function definitions
-//
-//*****************************************************************************
-extern void disable_print_interface(void);
-extern gfx_Bitmap_t Ambiq_Micro_Logo;
-
-#endif // FREERTOS_TETRIS_H

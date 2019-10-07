@@ -1,6 +1,6 @@
 //*****************************************************************************
 //
-//! @file freertos_tetris.h
+//! @file tetris.h
 //!
 //! @brief Global includes for the freertos_tetris app.
 //
@@ -44,59 +44,29 @@
 //
 //*****************************************************************************
 
-#ifndef FREERTOS_TETRIS_H
-#define FREERTOS_TETRIS_H
+#ifndef __TETRIS_H__
+#define __TETRIS_H__
 
 //*****************************************************************************
 //
 // Required built-ins.
 //
 //*****************************************************************************
-#include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
-
-//*****************************************************************************
-//
-// Standard AmbiqSuite includes.
-//
-//*****************************************************************************
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
-
-//*****************************************************************************
-//
-// FreeRTOS include files.
-//
-//*****************************************************************************
-#include "FreeRTOS.h"
-#include "task.h"
-#include "event_groups.h"
-#include "queue.h"
-
+#include "freertos_tetris.h"
+#include "types.h"
+#include "rtos.h"
 //*****************************************************************************
 //
 // Task include files.
 //
 //*****************************************************************************
-#include "led_task.h"
-#include "main_game_task.h"
-#include "ssd1306_display.h"
 
-#include "gfx/gfx.h"
-#include "gfx/gfx_internal.h"
-#include "gfx/gfx_format.h"
-
-#include "tetriminos/tetriminos.h"
 
 //*****************************************************************************
 //
 // External function definitions
 //
 //*****************************************************************************
-extern void disable_print_interface(void);
-extern gfx_Bitmap_t Ambiq_Micro_Logo;
+void draw_tetris_well_10_x_20(gfx_DeviceContext_t *pDC);
 
-#endif // FREERTOS_TETRIS_H
+#endif // __TETRIS_H__

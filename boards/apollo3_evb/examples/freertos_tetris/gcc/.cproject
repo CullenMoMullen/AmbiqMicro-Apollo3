@@ -208,8 +208,8 @@
 					<sourceEntries>
 						<entry excluding="third_party/FreeRTOSv10.1.1/Source|Source|utils|devices|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="devices"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="include|readme.txt|portable/MemMang/ReadMe.url|portable/readme.txt|portable/MemMang/heap_5.c|portable/MemMang/heap_4.c|portable/MemMang/heap_3.c|portable/GCC/ARM_CM4F|portable/GCC/AMapollo|portable/MemMang/heap_1.c|portable/Keil6|portable/Keil|portable/IAR|portable/Common" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="third_party/FreeRTOSv10.1.1/Source"/>
+						<entry excluding="tetriminos/zMask2.c|tetriminos/zMask1.c|tetriminos/tMask4.c|tetriminos/tMask3.c|tetriminos/tMask2.c|tetriminos/tMask1.c|tetriminos/sMask2.c|tetriminos/sMask1.c|tetriminos/oMask1.c|tetriminos/lMask4.c|tetriminos/lMask3.c|tetriminos/lMask2.c|tetriminos/lMask1.c|tetriminos/jMask4.c|tetriminos/jMask3.c|tetriminos/jMask2.c|tetriminos/jMask1.c|tetriminos/iMask2.c|tetriminos/iMask1.c|handlealloc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="portable/MemMang/heap_2.c|include|readme.txt|portable/MemMang/ReadMe.url|portable/readme.txt|portable/MemMang/heap_5.c|portable/MemMang/heap_3.c|portable/GCC/ARM_CM4F|portable/GCC/AMapollo|portable/MemMang/heap_1.c|portable/Keil6|portable/Keil|portable/IAR|portable/Common" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="third_party/FreeRTOSv10.1.1/Source"/>
 						<entry excluding="*.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="utils"/>
 					</sourceEntries>
 				</configuration>

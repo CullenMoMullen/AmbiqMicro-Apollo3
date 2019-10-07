@@ -14,8 +14,6 @@
 #include "freertos_tetris.h"
 #include "types.h"
 
-#define MAX_BITMAP_SZ (320 * 4)
-
 ////////////////////////////////////////////////////////////////////////////////
 // To view the documentation for this function, refer to gfx.h.
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +24,7 @@ gfx_Bitmap_t *gfx_bmp_CreateBitmap(unsigned char uBitmapTypeIdentifier, uint16_t
     uint32_t uSize;
     pGetDataSize = gfx_format_GetDataSize(uBitmapTypeIdentifier);
     uSize = sizeof(gfx_Bitmap_t) + pGetDataSize (uWidth,uHeight);
-    pBmp = (gfx_Bitmap_t*)malloc(uSize);
+    pBmp = (gfx_Bitmap_t*)pvPortMalloc(uSize);
     if(pBmp)
     {
         pBmp->uType = uBitmapTypeIdentifier;
@@ -45,7 +43,7 @@ bool gfx_bmp_GetPixel(gfx_Color_t *pPalette, gfx_Bitmap_t *pSrc, int x , int y, 
     if(x <(int)pSrc->uWidth && y < (int)pSrc->uHeight)
     {
         gfx_format_GetPixel_t *pGetPixel = gfx_format_GetPixel(pSrc);
-        assert(pGetPixel);
+        configASSERT(pGetPixel);
         pGetPixel(pPalette, pSrc, (uint16_t)x, (uint16_t)y, pRGB);
         return true;
     }
@@ -60,7 +58,7 @@ bool gfx_bmp_PutPixel(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest, int x , int y,
     if(x <(int)pDest->uWidth && y < (int)pDest->uHeight)
     {
         gfx_format_PutPixel_t *pPutPixel  = gfx_format_PutPixel(pDest);
-        assert(pPutPixel);
+        configASSERT(pPutPixel);
         pPutPixel(pPalette, pDest,(uint16_t)x,(uint16_t)y,cRGB);
         return true;
     }
@@ -77,8 +75,8 @@ void gfx_bitblt_Generic(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest, gfx_Rect_t R
     gfx_format_PutPixel_t *pPutPixel  = gfx_format_PutPixel(pDest);
     gfx_format_GetPixel_t *pGetPixel = gfx_format_GetPixel(pSrc);
 
-    assert(pPutPixel);
-    assert(pGetPixel);
+    configASSERT(pPutPixel);
+    configASSERT(pGetPixel);
 
     //! \todo:  optimize:   pre-calculate what the range and offsets will be so no comparisons happen during the blit
     //! \todo:  optimize:   perhaps make a 'get multiple pixels' so the penalty of function calling will be lessoned.
@@ -100,8 +98,6 @@ void gfx_bitblt_Generic(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest, gfx_Rect_t R
         }
     }
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //! \internal
@@ -209,8 +205,8 @@ void gfx_bitblt_Simple(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest, gfx_Rect_t Cl
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_bmp_DrawBitmapByAddr(gfx_DeviceContext_t *pDC, gfx_Bitmap_t *pSrc, int x, int y )
 {
-    assert(pDC);
-    assert(pSrc);
+    configASSERT(pDC);
+    configASSERT(pSrc);
     //each entry in the clipping chain is a valid area to draw in
     if(pDC && pSrc)
     {
@@ -230,11 +226,11 @@ void gfx_bmp_DrawBitmapByAddr(gfx_DeviceContext_t *pDC, gfx_Bitmap_t *pSrc, int 
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_bmp_DeleteBitmap(gfx_Bitmap_t* pBitmap)
 {
-    SystemHalt(1);
+    assert(pBitmap);
+    vPortFree((void *)pBitmap);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // End of file
 ////////////////////////////////////////////////////////////////////////////////
 //! @}
-

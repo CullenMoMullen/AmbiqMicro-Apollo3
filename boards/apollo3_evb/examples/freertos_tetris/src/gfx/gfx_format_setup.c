@@ -10,8 +10,7 @@
 //!
 ////////////////////////////////////////////////////////////////////////////////
 #include "types.h"
-#include "gfx/gfx.h"
-#include "gfx/gfx_format.h"
+#include "freertos_tetris.h"
 
 //! This structure array defines the supported bitmaps formats and their functions for
 //! handling operations.
@@ -152,7 +151,7 @@ const gfx_format_BitBltEntry_t g_gfx_BitBltFunctions[]=
         BITMAP_TYPE_COUNT,
         BITMAP_TYPE_COUNT,
         NULL
-    }
+    },
 };
 
 //! This structure array defines pairs of bitmap formats, and the accelerated function

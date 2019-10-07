@@ -60,10 +60,8 @@ static uint32_t ssd1306_platform_write(void* iomHandle, uint8_t reg, uint8_t *bu
 void* iom_handle = NULL;
 
 #define SSD1306_DISPLAY_MAX_XFER_SIZE 129
-uint32_t i2cTX[SSD1306_DISPLAY_MAX_XFER_SIZE]; // = {0, 0}; // WHO_AM_I register
-uint32_t i2cRX[SSD1306_DISPLAY_MAX_XFER_SIZE]; // = {0};
-
-//uint8_t frame[SSD1306_FB_SIZE] = {0}; //1k bytes
+uint32_t i2cTX[SSD1306_DISPLAY_MAX_XFER_SIZE];
+uint32_t i2cRX[SSD1306_DISPLAY_MAX_XFER_SIZE];
 
 uint8_t framebuffer[sizeof(gfx_Bitmap_t)+SSD1306_FB_SIZE] = {0};
 gfx_Bitmap_t* pFrameBuffer;
@@ -86,6 +84,10 @@ am_hal_iom_transfer_t iomCmdXferDefault =
 };
 
 
+//only call affter init!
+gfx_Bitmap_t* ssd1306_get_frame_buffer(void){
+    return pFrameBuffer;
+}
 
 //*****************************************************************************
 //
@@ -104,8 +106,8 @@ uint32_t ssd1306_platform_init(uint32_t ui32IomModuleNum)
     uint8_t wake_success = pdFALSE;
 
     am_hal_iom_config_t iom_i2c_config = {
-            .eInterfaceMode = AM_HAL_IOM_I2C_MODE,
-            .ui32ClockFreq = AM_HAL_IOM_100KHZ
+        .eInterfaceMode = AM_HAL_IOM_I2C_MODE,
+        .ui32ClockFreq = AM_HAL_IOM_100KHZ
     };
 
     retVal = am_hal_iom_initialize(ui32IomModuleNum, &iom_handle);
@@ -272,9 +274,6 @@ uint32_t ssd1306_display_init(void* iomHandle)
 
     GFX_INIT_STATIC_BITMAP(pFrameBuffer, framebuffer, BITMAP_TYPE_1BPP_VERTICAL,SSD1306_LCD_WIDTH, SSD1306_LCD_HEIGHT);
 
-
-
-
     initPtr = displayInitSeq;
 
     len = 1;
@@ -349,7 +348,6 @@ uint32_t ssd1306_display_init(void* iomHandle)
     len = 1;
     retVal = ssd1306_platform_write(iomHandle, SSD1306_CTRL_BYTE_COMMAND, initPtr, len, true);
 
-
     return retVal;
 }
 
@@ -358,8 +356,6 @@ static uint32_t ssd1306_platform_write(void* iomHandle, uint8_t reg, uint8_t *bu
     uint32_t ui32Status = AM_HAL_STATUS_SUCCESS;
     uint8_t* dstPtr = (uint8_t *)i2cTX;
     am_hal_iom_transfer_t iomXfer = iomCmdXferDefault;
-
-
 
     if( len >= SSD1306_DISPLAY_MAX_XFER_SIZE ) {
         //len must be smaller than SSD1306_DISPLAY_MAX_XFER_SIZE since we add one control byte
@@ -370,7 +366,6 @@ static uint32_t ssd1306_platform_write(void* iomHandle, uint8_t reg, uint8_t *bu
         am_util_stdio_printf("ERROR!!! No TX buffer provided\r\n");
         return 1; // Error no data to transmit
     }
-
 
     //we must make a command with following I2C data
     //Slave Addr + 0x80 (cmd) + CMD + len of command (len-1)
@@ -387,13 +382,12 @@ static uint32_t ssd1306_platform_write(void* iomHandle, uint8_t reg, uint8_t *bu
     iomXfer.ui32PauseCondition = 0;     // ?
     iomXfer.ui32StatusSetClr = 0;       // ?
 
-    if ( SSD1306_CTRL_BYTE_COMMAND == reg ){
-        //iomXfer.ui32Instr = SSD1306_CTRL_BYTE_COMMAND;
+    if ( SSD1306_CTRL_BYTE_COMMAND == reg )
+    {
         *dstPtr = SSD1306_CTRL_BYTE_COMMAND;
     }
     else
     {
-        //iomXfer.ui32Instr = SSD1306_CTRL_BYTE_DATA;
         *dstPtr = SSD1306_CTRL_BYTE_DATA;
     }
 
@@ -441,8 +435,9 @@ uint32_t ssd1306_show_frame(gfx_Bitmap_t* srcBitmap)
             SSD1306_SETLOWCOLUMN,
             SSD1306_SETHIGHCOLUMN
     };
-
-    if(srcBitmap->pData != pFrameBuffer->pData) {
+    
+    // If source is same as framebuffer do not copy
+    if( srcBitmap->pData != pFrameBuffer->pData ){
         memcpy(pFrameBuffer->pData,srcBitmap->pData, ((srcBitmap->uHeight+7)/8) * srcBitmap->uWidth);
     }
 
@@ -474,12 +469,23 @@ uint32_t ssd1306_invert_display(bool invert)
 {
     uint32_t retVal = 0;
     uint16_t len;
-    uint8_t invertCmd = SSD1306_INVERTDISPLAY;
-    if (false == invert)
-    {
-        invertCmd = SSD1306_NORMALDISPLAY;
-    }
+    uint8_t invertCmd = invert ? SSD1306_INVERTDISPLAY : SSD1306_NORMALDISPLAY;
+
     len = 1;
     retVal = ssd1306_platform_write(iom_handle, SSD1306_CTRL_BYTE_COMMAND, &invertCmd, len, true);
     return retVal;
 }
+
+/*void rotateDisplay(bool rot)
+{
+    if (rot)
+    {
+        _sendTWIcommand(SSD1306_SEGREMAP_COL0_SEG0);
+        _sendTWIcommand(SSD1306_COM_SCAN_INC);
+    }
+    else
+    {
+        _sendTWIcommand(SSD1306_SEGREMAP_COL127_SEG0);
+        _sendTWIcommand(SSD1306_COM_SCAN_DEC);
+    }
+}*/

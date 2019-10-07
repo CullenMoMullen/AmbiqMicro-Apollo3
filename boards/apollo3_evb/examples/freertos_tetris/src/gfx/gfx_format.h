@@ -6,8 +6,6 @@
 //! \brief   Contains structures and function prototypes for supported bitmap types.
 //!
 //! The tables in this file define support for specific bitmap formats and acceleration.
-//!
-//! \todo [PUBS] Add definitions for TBDs in this file.
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -17,7 +15,7 @@
 //!
 //! Function typedef for a optimized DrawLine function to be used with the gfx library.  A function
 //! pointer to a function of this type is returned from a lookup table during a DrawLine
-//! so that the appropriate DrawLine function is called for the specfifc color format.  If no
+//! so that the appropriate DrawLine function is called for the specific color format.  If no
 //! optimized version of DrawLine is available for the color format then the graphics library
 //! will use PutPixel to accomplish the drawing of a line.
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +26,7 @@ typedef void (gfx_format_LineDraw_t)(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest,
 //!
 //! Function typedef for a PutPixel function to be used with the gfx library.  A function
 //! pointer to a function of this type is returned from a lookup table during a PutPixel
-//! so that the appropriate PutPixel function is called for the specfifc color format
+//! so that the appropriate PutPixel function is called for the specific color format
 ////////////////////////////////////////////////////////////////////////////////
 typedef void(gfx_format_PutPixel_t)(gfx_Color_t *pPalette, gfx_Bitmap_t *, uint16_t,
                                     uint16_t, gfx_Color_t );
@@ -38,7 +36,7 @@ typedef void(gfx_format_PutPixel_t)(gfx_Color_t *pPalette, gfx_Bitmap_t *, uint1
 //!
 //! Function typedef for a GetPixel function to be used with the gfx library.  A function
 //! pointer to a function of this type is returned from a lookup table during a GetPixel
-//! so that the appropriate GetPixel function is called for the specfifc color format
+//! so that the appropriate GetPixel function is called for the specific color format
 ////////////////////////////////////////////////////////////////////////////////
 typedef void(gfx_format_GetPixel_t)(gfx_Color_t *pPalette, gfx_Bitmap_t *, uint16_t,
                                     uint16_t, gfx_Color_t *);
@@ -48,7 +46,7 @@ typedef void(gfx_format_GetPixel_t)(gfx_Color_t *pPalette, gfx_Bitmap_t *, uint1
 //!
 //! Function typedef for a GetDataSize function to be used with the gfx library.  A function
 //! pointer to a function of this type is returned from a lookup table during a GetDataSize
-//! so that the appropriate GetDataSize function is called for the specfifc color format
+//! so that the appropriate GetDataSize function is called for the specific color format
 ////////////////////////////////////////////////////////////////////////////////
 typedef uint32_t(gfx_format_GetDataSize_t)(uint16_t,uint16_t);
 
@@ -57,7 +55,7 @@ typedef uint32_t(gfx_format_GetDataSize_t)(uint16_t,uint16_t);
 //!
 //! Function typedef for a optimized DrawLine function to be used with the gfx library.  A function
 //! pointer to a function of this type is returned from a lookup table during a DrawLine
-//! so that the appropriate DrawLine function is called for the specfifc color format.  If no
+//! so that the appropriate DrawLine function is called for the specific color format.  If no
 //! optimized version of DrawLine is available for the color format then the graphics library
 //! will use PutPixel to accomplish the drawing of a line.
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +66,7 @@ typedef void(gfx_format_DrawLine_t)(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest,
 //!
 //! Function typedef for a BitBlt function to be used with the gfx library.  A function
 //! pointer to a function of this type is returned from a lookup table during a bitblt
-//! so that the appropriate bitblt function is called for the specfifc source/destination
+//! so that the appropriate bitblt function is called for the specific source/destination
 //! format pair.
 ////////////////////////////////////////////////////////////////////////////////
 typedef void (gfx_format_Bitblt_t)(gfx_Color_t *pPalette, gfx_Bitmap_t*,gfx_Rect_t,
@@ -78,7 +76,7 @@ typedef void (gfx_format_Bitblt_t)(gfx_Color_t *pPalette, gfx_Bitmap_t*,gfx_Rect
 //!
 //! Function typedef for a BitBlt function to be used with the gfx library.  A function
 //! pointer to a function of this type is returned from a lookup table during a bitblt
-//! so that the appropriate bitblt function is called for the specfifc source/destination
+//! so that the appropriate bitblt function is called for the specific source/destination
 //! format pair.
 ////////////////////////////////////////////////////////////////////////////////
 typedef void(gfx_format_GetBitBlt_t)(gfx_Color_t *pPalette, gfx_Bitmap_t*,gfx_Rect_t,
@@ -100,7 +98,7 @@ typedef struct _gfx_BitmapFormat
     gfx_format_DrawLine_t    * const DrawLineFunction;
 } gfx_BitmapFormat_t;
 
-//! \brief Structure for defining the accellerated  bitblt formats.
+//! \brief Structure for defining the accelerated  bitblt formats.
 typedef struct _gfx_format_BitBltEntry
 {
     //! \brief Identifier for source bitmap type
@@ -120,7 +118,7 @@ extern const gfx_format_BitBltEntry_t   g_gfx_BitBltFunctions[];
 ///////////////////////////////////////////////////////////////////////////////
 //! \brief Function to obtain the 'GetPixel' function of a bitmap type.
 //! 
-//! \param[in] * Pointer to a bitmap for which the 'getpixel' function is needed
+//! \param[in] * Pointer to a bitmap for which the 'getPixel' function is needed
 //!
 //! \return Pointer to the function for 'get pixel'.
 //!
@@ -135,7 +133,7 @@ gfx_format_GetPixel_t    *gfx_format_GetPixel(gfx_Bitmap_t*);
 //!
 //! Internal function to obtain the 'PutPixel' function of a bitmap type.
 //! 
-//! \param[in] * Pointer to a bitmap for which the 'putpixel' function is needed
+//! \param[in] * Pointer to a bitmap for which the 'putPixel' function is needed
 //! \return Pointer to the function for 'put pixel'.
 //!
 //! \note This function is called by many of the graphics APIs internally, however
@@ -197,7 +195,7 @@ gfx_format_LineDraw_t    *gfx_format_GetLineDraw(gfx_Bitmap_t*);
 //! \param[in]  y         y position of the pixel
 //! \param[out] pPixel    Pointer to a gfx_Color_t object to populate with the RGB color
 //!
-//! \note The prefered API to use instead of this function is gfx_bmp_GetPixel
+//! \note The preferred API to use instead of this function is gfx_bmp_GetPixel
 //!       which will analyze the type of bitmap for which a pixel is being gotten
 //!       and will call this function automatically, however this function is
 //!       exposed so the customer may call it directly if desired.
@@ -218,7 +216,7 @@ void gfx_GetPixel_1BPP_Ideal(gfx_Color_t *pPalette, gfx_Bitmap_t *pBitmap,
 //! \param[in] y                    y position of the pixel
 //! \param[in] uRGB                 Color value to place in the bitmap
 //!
-//! \note The prefered API to use instead of this function is gfx_bmp_PutPixel
+//! \note The preferred API to use instead of this function is gfx_bmp_PutPixel
 //!       which will analyze the type of bitmap for which a pixel is being put
 //!       and will call this function automatically, however this function is
 //!       exposed so the customer may call it directly if desired.
@@ -251,7 +249,7 @@ uint32_t gfx_GetDataSize_1BPP_Ideal(uint16_t u16x, uint16_t u16y);
 //! \param[in]  y         y position of the pixel
 //! \param[out] pRGB      Pointer to a gfx_Color_t object to populate with the RGB color
 //!
-//! \note The prefered API to use instead of this function is gfx_bmp_GetPixel
+//! \note The preferred API to use instead of this function is gfx_bmp_GetPixel
 //!       which will analyze the type of bitmap for which a pixel is being gotten
 //!       and will call this function automatically, however this function is
 //!       exposed so the customer may call it directly if desired.
@@ -272,7 +270,7 @@ void gfx_GetPixel_1BPP_Vertical(gfx_Color_t *pPalette, gfx_Bitmap_t *pBitmap,
 //! \param[in] y                    y position of the pixel
 //! \param[in] cRGB                 Color value to place in the bitmap
 //!
-//! \note The prefered API to use instead of this function is gfx_bmp_PutPixel
+//! \note The preferred API to use instead of this function is gfx_bmp_PutPixel
 //!       which will analyze the type of bitmap for which a pixel is being put
 //!       and will call this function automatically, however this function is
 //!       exposed so the customer may call it directly if desired.
@@ -305,7 +303,7 @@ uint32_t gfx_GetDataSize_1BPP_Vertical(uint16_t u16x, uint16_t u16y);
 //! \param[in] SourceXoffset Value to offset the X coordinate of the source bitmap within the rectangle.
 //! \param[in] SourceYoffset Value to offset the Y coordinate of the source bitmap within the rectangle.
 //!
-//! \note The prefered API to use instead of this function is gfx_bmp_DrawBitmap and gfx_bmp_DrawBitmapByAddress
+//! \note The preferred API to use instead of this function is gfx_bmp_DrawBitmap and gfx_bmp_DrawBitmapByAddress
 //!       which will analyze the type of bitmaps for which a BitBlt is being performed
 //!       and will call this function automatically, however this function is
 //!       exposed so the customer may call it directly if desired.
@@ -328,10 +326,10 @@ void gfx_bitblt_Generic(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest, gfx_Rect_t R
 //!
 //! \todo This function may be excess functionality than required.  The typical usage of line drawing
 //!       in our system is horizontal or vertical lines, which are much simpler to clip.
-//! \todo optimize:   the two branches (whether x or y is the incrementer) can be collapesed into one using
+//! \todo optimize:   the two branches (whether x or y is the incremented) can be collapsed into one using
 //!                   pointers to the original data.
 //! 
-//! \note The prefered API to use instead of this function is gfx_2d_DrawLine
+//! \note The preferred API to use instead of this function is gfx_2d_DrawLine
 //!       which will draw a line onto a device context.  This function is exposed
 //!       so that a line may be drawn directly onto a bitmap instead of a device
 //!       context.  The caller should check all bounds to make sure the line

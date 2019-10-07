@@ -1,14 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \addtogroup gfx
 //! @{
-//
+//!
 //! \file    gfx_primatives.c
 //! \brief   Contains functionality that implements simple line drawing and rectangle operations.
 ////////////////////////////////////////////////////////////////////////////////
-#include "types.h"
 #include "freertos_tetris.h"
-#include <stdlib.h>
-
+#include "types.h"
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Draws a line, pre-clipped, in a given color to a given bitmap.
 //! 
@@ -34,7 +32,7 @@ void gfx_2d_DrawClippedLineGeneric(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest, i
     int32_t D;
     gfx_format_PutPixel_t *pPutPixel= gfx_format_PutPixel(pDest);
 
-    assert(pPutPixel);
+    configASSERT(pPutPixel);
 
     if(y0==y1)
     {//its a horizontal line

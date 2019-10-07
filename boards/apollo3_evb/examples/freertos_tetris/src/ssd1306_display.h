@@ -117,6 +117,7 @@ uint32_t ssd1306_display_init(void* iomHandle);
 uint32_t ssd1306_clear_screen(bool updateDisplay);
 uint32_t ssd1306_show_frame(gfx_Bitmap_t* srcBitmap);
 uint32_t ssd1306_invert_display(bool invert);
+gfx_Bitmap_t* ssd1306_get_frame_buffer(void);
 
 #endif // SSD1306_DISPLAY_H
 

@@ -23,8 +23,8 @@ extern "C" {
 //    gfx_ClipNode_t *pClipNodes;         //!< Pointer to the available clip nodes
 //    gfx_RectNode_t *pRectNodes;         //!< Pointer to the available rect nodes
 //} gfx_Globals_t;
-//
-//extern gfx_Globals_t g_gfx_Globals;
+
+extern gfx_Globals_t g_gfx_Globals;
 
 //Functions pointer tables choosing the right function
 extern void (*const g_BitBltFunctions[BITMAP_TYPE_COUNT][BITMAP_TYPE_COUNT])(gfx_Color_t *pPalette, gfx_Bitmap_t*,gfx_Rect_t,gfx_Bitmap_t*,int,int);
@@ -40,6 +40,8 @@ void gfx_DrawLineSimple(gfx_Color_t *pPalette, gfx_Bitmap_t *pDest, gfx_Rect_t *
 
 //void gfx_blendline_16bpp_565(uint16_t *pSource, uint16_t *pDest, uint16_t uLineWidth, uint16_t alphaValue);
 //void gfx_blendline_chroma_16bpp_565(uint16_t *pSource, uint16_t *pDest, uint16_t uLineWidth, uint16_t alphaValue, uint16_t uChromaRGB);
+
+
 #ifdef __cplusplus
 }
 #endif

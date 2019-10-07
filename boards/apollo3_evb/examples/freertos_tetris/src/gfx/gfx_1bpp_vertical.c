@@ -20,8 +20,7 @@ void gfx_PutPixel_1BPP_Vertical(gfx_Color_t *pPalette, gfx_Bitmap_t *pBitmap, ui
 
     pData = &pData[((y/8)*pBitmap->uWidth) + x];
 
-    if((cRGB & 0x00FFFFFF) == (pPalette[1] & 0x00FFFFFF) ||
-      ((cRGB & 0x00FFFFFF) == 0x00FFFFFF))//if the color is the background color or WHITE,compare RGB color only
+    if((cRGB & 0x00FFFFFF) == (pPalette[PALETTE_BG_COLOR_IDX] & 0x00FFFFFF))//if the color is the background color or WHITE,compare RGB color only
         *pData &= ~uByte;
     else
         *pData |= uByte;
@@ -38,12 +37,13 @@ void gfx_GetPixel_1BPP_Vertical(gfx_Color_t *pPalette, gfx_Bitmap_t *pBitmap, ui
 
     pData = &pData[((y/8)*pBitmap->uWidth) + x];
 
-    if(*pData & uByte)  // black dot
-        *pRGB = pPalette[1];
-    else    // white dot
-        *pRGB = pPalette[0];
+    if(*pData & uByte){  // bit is set
+        *pRGB = pPalette[PALETTE_FG_COLOR_IDX];
+    }
+    else{    // white dot
+        *pRGB = pPalette[PALETTE_BG_COLOR_IDX];
+    }
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // End of file

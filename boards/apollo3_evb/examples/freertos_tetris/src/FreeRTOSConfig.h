@@ -62,7 +62,7 @@ extern "C"
 #define configTICK_RATE_HZ                      1000
 #define configMAX_PRIORITIES                    4
 #define configMINIMAL_STACK_SIZE                (256)
-#define configTOTAL_HEAP_SIZE                   (16 * 1024)
+#define configTOTAL_HEAP_SIZE                   (64 * 1024)
 #define configMAX_TASK_NAME_LEN                 16
 #define configUSE_16_BIT_TICKS                  0
 #define configIDLE_SHOULD_YIELD                 1
@@ -109,7 +109,7 @@ extern "C"
 /* Optional functions - most linkers will remove unused functions anyway. */
 #define INCLUDE_vTaskPrioritySet                0
 #define INCLUDE_uxTaskPriorityGet               0
-#define INCLUDE_vTaskDelete                     0
+#define INCLUDE_vTaskDelete                     1
 #define INCLUDE_vTaskSuspend                    1
 #define INCLUDE_xResumeFromISR                  0
 #define INCLUDE_vTaskDelayUntil                 1

@@ -4,22 +4,21 @@
 //
 //! \file types.h
 //! \brief Contains standard data types.
-//! \todo [PUBS] Add definitions for TBDs in this file
 ///////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef _TYPES_H
-#define _TYPES_H
+#ifndef __TYPES_H__
+#define __TYPES_H__
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "assert.h"
+#include <assert.h>
 //! \brief TBD
 //! \todo [PUBS] Add definition(s)...
 //! \todo Where does this really go?
 
 #ifndef uint128_t
-typedef struct
+typedef struct _uint128_t_
 {
     //! \brief TBD
     uint32_t val[4];
@@ -27,11 +26,11 @@ typedef struct
 #endif
 //! \brief TBD
 #ifndef RETCODE
-#define RETCODE int
+#define RETCODE int32_t
 #endif
 
 //------------------------------------------------------------------------------
-// All of the following defs are included for compatability.  Please use the
+// All of the following defs are included for compatibility.  Please use the
 // ANSI C99 defs for all new work.
 //------------------------------------------------------------------------------
 
@@ -93,35 +92,6 @@ typedef uint128_t   UINT128;
 //! \brief TBD
 typedef float       FLOAT;
 
-//! \brief TBD
-#define FRACT       _fract
-//! \brief TBD
-#define CIRC        _circ
-
-//! \brief Provides a default of 16 bytes (128 bits / 8 bits per byte)
-#ifndef MAX_NUM_RAW_SERIAL_NUMBER_BYTES
-    #define MAX_NUM_RAW_SERIAL_NUMBER_BYTES (16)
-#endif
-
-//! \brief Provides a default value that allows each nibble of raw to be converted to its
-//! ASCII hex character (1 extra for NULL termination)
-#ifndef MAX_NUM_ASCII_SERIAL_NUMBER_CHARS
-    #define MAX_NUM_ASCII_SERIAL_NUMBER_CHARS   (2*MAX_NUM_RAW_SERIAL_NUMBER_BYTES)
-#endif
-
-//! \brief Serial number.
-typedef struct SerialNumber
-{
-    //! \brief TBD
-    uint8_t rawSizeInBytes;                          
-    //! \brief TBD
-    uint8_t asciiSizeInChars;
-    //! \brief TBD
-    uint8_t raw[MAX_NUM_RAW_SERIAL_NUMBER_BYTES];
-    // One extra for NULL termination
-    char ascii[MAX_NUM_ASCII_SERIAL_NUMBER_CHARS+1];
-} SerialNumber_t;
-
 //------------------------------------------------------------------------------
 // Huh?
 //------------------------------------------------------------------------------
@@ -135,32 +105,16 @@ typedef struct SerialNumber
 
 //! \brief TBD
 #ifdef DEBUG
-#define IFDEBUG(x) x
+#define IFDEBUG(x) (x)
 #else
 #define IFDEBUG(x)
 #endif
 
-//------------------------------------------------------------------------------
-// This sets the default build of the target
-//------------------------------------------------------------------------------
-
-//! \brief TBD
-#if !defined(HW_TARGET_ASIC) && !defined(HW_TARGET_SIMULATOR)
-#define HW_TARGET_BRAZOS 1
-#endif
-
-//------------------------------------------------------------------------------
-// Win32 compatibility?
-//------------------------------------------------------------------------------
 
 //! \brief TBD
 #ifdef _WIN32
 #define inline __inline
 #endif
-
-#define SystemHalt(x) while(1)
-
-
 
 #endif // #ifndef _TYPES_H
 

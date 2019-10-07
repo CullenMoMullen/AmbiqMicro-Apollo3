@@ -37,7 +37,7 @@ const gfx_BitmapFormat_t *gfx_format_GetFormat(uint8_t uFormatCode)
     }
     if(pFormat->uUniqueIdentifier == BITMAP_TYPE_COUNT)
         pFormat = NULL;
-    assert(pFormat);
+    configASSERT(pFormat);
     return pFormat;
 }
 
@@ -48,7 +48,7 @@ gfx_format_GetPixel_t    *gfx_format_GetPixel(gfx_Bitmap_t* pBmp)
 {
     gfx_format_GetPixel_t *pGetPixel = gfx_format_GetFormat(pBmp->uType)->GetPixelFunction;
 
-    assert(pGetPixel);
+    configASSERT(pGetPixel);
     return pGetPixel;
 }
 
@@ -59,7 +59,7 @@ gfx_format_PutPixel_t    *gfx_format_PutPixel(gfx_Bitmap_t* pBmp)
 {
     gfx_format_PutPixel_t *pPutPixel = gfx_format_GetFormat(pBmp->uType)->PutPixelFunction;
 
-    assert(pPutPixel);
+    configASSERT(pPutPixel);
     return pPutPixel;
 }
 
@@ -70,7 +70,7 @@ gfx_format_GetDataSize_t *gfx_format_GetDataSize(uint8_t uFormatCode)
 {
     gfx_format_GetDataSize_t *pGetDataSize = gfx_format_GetFormat(uFormatCode)->GetBitmapDataSize;
 
-    assert(pGetDataSize);
+    configASSERT(pGetDataSize);
     return pGetDataSize;
 }
 
@@ -81,7 +81,7 @@ gfx_format_LineDraw_t    *gfx_format_GetLineDraw(gfx_Bitmap_t* pBmp)
 {
 
     gfx_format_LineDraw_t *pLineDraw=gfx_format_GetFormat(pBmp->uType)->DrawLineFunction;
-    assert(pLineDraw);
+    configASSERT(pLineDraw);
     return pLineDraw;
 }
 

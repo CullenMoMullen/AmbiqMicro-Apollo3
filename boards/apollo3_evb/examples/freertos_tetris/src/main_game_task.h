@@ -1,8 +1,8 @@
 //*****************************************************************************
 //
-//! @file led_task.h
+//! @file main_game_task.h
 //!
-//! @brief Functions and variables related to the LED task.
+//! @brief Functions and variables related to the main game task.
 //!
 //*****************************************************************************
 
@@ -44,22 +44,26 @@
 //
 //*****************************************************************************
 
-#ifndef MAIN_GAME_TASK_H
-#define MAIN_GAME_TASK_H
+#ifndef __MAIN_GAME_TASK_H__
+#define __MAIN_GAME_TASK_H__
 
 //*****************************************************************************
 //
-// LED task handle.
+// GameTask UI Message Types.
 //
 //*****************************************************************************
-extern TaskHandle_t game_task_handle;
-
 typedef enum _eUIMsgType_ {
-    UI_MSG_TYPE_HEARTBEAT,
+    UI_MSG_TYPE_HEARTBEAT,        //controls the automatic dropping of tetriminos
     UI_MSG_TYPE_BUTTON_PRESS,
     UI_MSG_TYPE_VOICE_COMMAND
 } eUIMsgType_t;
 
+//*****************************************************************************
+//
+// GameTask UI Message data structure.  The time stamp will be used to measure
+// latency between event occurrence and message processing.
+//
+//*****************************************************************************
 typedef struct _UIMessage_t_ {
     eUIMsgType_t msgType;
 
@@ -76,15 +80,24 @@ typedef struct _UIMessage_t_ {
 // External function definitions.
 //
 //*****************************************************************************
-extern void GameTaskSetup(void);
-extern void GameTask(void *pvParameters);
+void GameTaskSetup(void);
+void GameTask(void *pvParameters);
 
 //*****************************************************************************
 //
 // External Variables.
 //
 //*****************************************************************************
+
+
+//*****************************************************************************
+// GameTask task UI Message Queue.
+//*****************************************************************************
 extern QueueHandle_t gameUIQueue;
 
+//*****************************************************************************
+// GameTask task handle.
+//*****************************************************************************
+extern TaskHandle_t game_task_handle;
 
 #endif // RADIO_TASK_H

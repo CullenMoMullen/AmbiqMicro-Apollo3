@@ -6,12 +6,10 @@
 //! \brief   Contains public header data for the graphics library.
 //! \version 1.0
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef __GFX_H
-#define __GFX_H
+#ifndef __GFX_H__
+#define __GFX_H__
 
 #include "types.h"
-
-
 
 #ifdef RGB
 #undef RGB
@@ -115,6 +113,13 @@ typedef uint32_t gfx_Color_t;
 //! \brief Standard definition for the color black.
 #define COLOR_BLACK         RGB(0,0,0)
 
+
+typedef enum _gfx_ColorPaletteIdx_t_ {
+    PALETTE_FG_COLOR_IDX = 0,
+    PALETTE_BG_COLOR_IDX = 1,
+    PALETTE_NUM_COLORS
+} gfx_ColorPaletteIdx_t;
+
 //! Enum defining the encoding types for text strings
 typedef enum _txt_StringTypesEnum{
     //! \brief Standard DBCS
@@ -148,12 +153,12 @@ typedef enum _gfx_BitmapTypeEnum
     //BITMAP_TYPE_18BPP_666,
     //! \brief Monochrome Color (1 bpp) with pixels arrange in 8 bit column ordering.
     BITMAP_TYPE_1BPP_VERTICAL,
-	//! \brief RGB Color with 8 bits red, 8 bits green, and 8 bits blue.
+    //! \brief RGB Color with 8 bits red, 8 bits green, and 8 bits blue.
     //BITMAP_TYPE_24BPP_888,
     //BITMAP_TYPE_32BPP_8888,
     BITMAP_TYPE_INVALID,
-	//! \brief Total number of currently supported color encodings.
-	BITMAP_TYPE_COUNT = BITMAP_TYPE_INVALID
+    //! \brief Total number of currently supported color encodings.
+    BITMAP_TYPE_COUNT = BITMAP_TYPE_INVALID
 } gfx_BitmapTypeEnum_t;
 
 
@@ -161,11 +166,11 @@ typedef enum _gfx_BitmapTypeEnum
 typedef struct _gfx_Bitmap
 {
     //! \brief Type of bitmap this header is
-    unsigned uType              : 8;
+    unsigned uType      : 8;
     //! \brief Width of bitmap (in pixels)
-    unsigned uWidth             : 12;
+    unsigned uWidth     : 12;
     //! \brief Height of bitmap (in pixels)
-    unsigned uHeight            : 12;
+    unsigned uHeight    : 12;
     //! \brief Data of the bitmap
     unsigned char     pData[];
 } gfx_Bitmap_t;
@@ -187,7 +192,7 @@ typedef struct _gfx_Rect
 //! \brief Used in defining active clipping regions
 typedef struct _gfx_RectNode
 {
-    //! \brief Points to the next rectangle node in the clippig region linked list.
+    //! \brief Points to the next rectangle node in the clipping region linked list.
     struct _gfx_RectNode *pNext;
     //! \brief The rectangle data for this rectangle node in the clipping region.
     gfx_Rect_t Rect;
@@ -230,12 +235,12 @@ typedef struct _gfx_DeviceContext
 
 //! \brief Used as an input to stretch blit to determine the resampling filter to use for the stretch operation.
 typedef enum _gfx_StretchFilter_t{
-	//! \brief Simplest filter requiring the least processing, but provides the least sharpness in the output (not good for < 50% reduction or > 200% magnification).
-	NEAREST_NEIGHBOR_STRETCH = 0,
-	//! \brief Resampling filter that uses a weighted average of four surrounding pixels in the source image to generate the destination pixel.
-	BILINEAR_INTERPOLATION_STRETH,
-	//! \brief Resampling filter that uses an average of 16 pixel in the source image to generate a pixel in the destination.
-	BICUBIC_INTERPOLATION_STRETCH
+    //! \brief Simplest filter requiring the least processing, but provides the least sharpness in the output (not good for < 50% reduction or > 200% magnification).
+    NEAREST_NEIGHBOR_STRETCH = 0,
+    //! \brief Resampling filter that uses a weighted average of four surrounding pixels in the source image to generate the destination pixel.
+    BILINEAR_INTERPOLATION_STRETH,
+    //! \brief Resampling filter that uses an average of 16 pixel in the source image to generate a pixel in the destination.
+    BICUBIC_INTERPOLATION_STRETCH
 } gfx_StretchFilter_t;
 
 //! Global structure for the GFX library
@@ -246,7 +251,7 @@ typedef struct _gfx_Globals
 } gfx_Globals_t;
 
 extern gfx_Globals_t g_gfx_Globals;
-extern gfx_Color_t DefaultPalette[2];
+extern gfx_Color_t gfx_1BPP_DefaultPalette[2];
 
 
 //! \brief Declares the size of a buffer in bytes to be used as a gfx_Bitmap_t (see \ref GFX_INIT_STATIC_BITMAP)
@@ -315,13 +320,12 @@ bool gfx_clip_IsRectInClippingRegion(gfx_DeviceContext_t *pDC, gfx_Rect_t *pRect
 //!
 //! This function intersects (logically ANDs) the current clipping region with the given rectangle.
 //!
-//! \param[in] pDC      gfx_DeviceContext_t on which to operate.
-//! \param[in] x0     Left of the rectangle to intersect with
-//! \param[in] y0      Top of the rectangle to intersect with
-//! \param[in] x1    Right of the rectangle to intersect with
+//! \param[in] pDC  gfx_DeviceContext_t on which to operate.
+//! \param[in] x0   Left of the rectangle to intersect with
+//! \param[in] y0   Top of the rectangle to intersect with
+//! \param[in] x1   Right of the rectangle to intersect with
 //! \param[in] y1   Bottom of the rectangle to intersect with
 //!
-//! \todo consider the need for this function vs. the one by rectangle
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_clip_IntersectByPoints(gfx_DeviceContext_t *pDC, int x0, int y0, int x1, int y1);
 
@@ -330,7 +334,7 @@ void gfx_clip_IntersectByPoints(gfx_DeviceContext_t *pDC, int x0, int y0, int x1
 //!
 //! This function intersects (logically ANDs) the current clipping region with the given rectangle.
 //!
-//! \param[in] pDC              gfx_DeviceContext_t on which to operate.
+//! \param[in] pDC    gfx_DeviceContext_t on which to operate.
 //! \param[in] rect   Rectangle to intersect with
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_clip_Intersect(gfx_DeviceContext_t *pDC, gfx_Rect_t *rect);
@@ -338,7 +342,7 @@ void gfx_clip_Intersect(gfx_DeviceContext_t *pDC, gfx_Rect_t *rect);
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief TBD
 //!
-//! \param[in] pDC gfx_DeviceContext_t on which to operate.
+//! \param[in] pDC  gfx_DeviceContext_t on which to operate.
 //! \param[in] rect Pointer to the rectangle
 //!
 //! \todo [PUBS] Add brief description for function
@@ -356,7 +360,7 @@ void gfx_clip_AddRect(gfx_DeviceContext_t *pDC, gfx_Rect_t *rect);
 //!
 //! \param[in] pDC    gfx_DeviceContext_t on which to operate.
 //! \param[in] left   Left of the rectangle to exclude
-//! \param[in] top    Ttop of the rectangle to exclude
+//! \param[in] top    Top of the rectangle to exclude
 //! \param[in] right  Right of the rectangle to exclude
 //! \param[in] bottom Bottom of the rectangle to exclude
 ////////////////////////////////////////////////////////////////////////////////
@@ -367,7 +371,7 @@ void gfx_clip_ExcludeByPoints(gfx_DeviceContext_t *pDC, int left, int top, int r
 //!
 //! This function excludes (subtracts)  the given rectangle from the current clipping region.
 //!
-//! \param[in] pDC            gfx_DeviceContext_t on which to operate.
+//! \param[in] pDC    gfx_DeviceContext_t on which to operate.
 //! \param[in] rect   Rectangle to subtract
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_clip_Exclude(gfx_DeviceContext_t *pDC, gfx_Rect_t *rect);
@@ -413,25 +417,10 @@ void gfx_clip_ReleaseClipChain(gfx_RectNode_t *pChain);
 void gfx_bmp_DrawBitmapByAddr(gfx_DeviceContext_t *pDC, gfx_Bitmap_t*, int x0, int y0);
 
 ////////////////////////////////////////////////////////////////////////////////
-//! \brief Draws a bitmap by resource onto the gfx_DeviceContext_t at the specified location.
-//!
-//!  This is the mechanism through which most bitmaps should be drawn.
-//!
-//! \param[in] pDC          gfx_DeviceContext_t to draw within
-//! \param[in] ResourceID   Resource ID to draw.
-//! \param[in] x0           X position to draw (relative to the current origin).
-//! \param[in] y0           Y position to draw (relative to the current origin).
-//!
-//! \internal
-//! \todo This function also manages the bitmap cache (I think)
-////////////////////////////////////////////////////////////////////////////////
-void gfx_bmp_DrawBitmap(gfx_DeviceContext_t *pDC, uint32_t ResourceID, int x0, int y0);
-
-////////////////////////////////////////////////////////////////////////////////
 //! \brief Rotate a bitmap
 //!
-//! \param[in]  pSrc    Source Bitmap
-//! \param[in]  pDest   Destination Bitmap
+//! \param[in]  pSrc            Source Bitmap
+//! \param[in]  pDest           Destination Bitmap
 //! \param[in]  eOrientation    Orientation to be rotate
 //!
 //! \returns NULL
@@ -441,9 +430,9 @@ void gfx_bmp_RotateBitmap(gfx_Color_t *pPalette, gfx_Bitmap_t *pSrc, gfx_Bitmap_
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Creates a bitmap from the handle allocation heap of specific size and format.
 //!
-//! \param[in]  eBitmapType  Bitmap format
-//! \param[in]  u16x                 Width of bitmap
-//! \param[in]  u16y                Height of bitmap
+//! \param[in]  eBitmapType Bitmap format
+//! \param[in]  u16x        Width of bitmap
+//! \param[in]  u16y        Height of bitmap
 //!
 //! \returns Pointer to a bitmap structure
 ////////////////////////////////////////////////////////////////////////////////
@@ -452,9 +441,9 @@ gfx_Bitmap_t *gfx_bmp_CreateBitmap(unsigned char eBitmapType, uint16_t u16x, uin
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Draws a solid rectangle onto the current context, clipped by the active clipping region.
 //! 
-//! \param[in] pDC          The target gfx_DeviceContext_t
-//! \param[in] pRect        The rectangle to draw
-//! \param[in] color        The color of the filled rectangle to draw.
+//! \param[in] pDC      The target gfx_DeviceContext_t
+//! \param[in] pRect    The rectangle to draw
+//! \param[in] color    The color of the filled rectangle to draw.
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_2d_FillRect(gfx_DeviceContext_t *pDC, gfx_Rect_t *pRect, gfx_Color_t color);
 ////////////////////////////////////////////////////////////////////////////////
@@ -496,33 +485,33 @@ void gfx_2d_GradientInwards(gfx_DeviceContext_t *pDC,
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Draw a rectangle onto the current context, clipped by the active clipping region.
 //! 
-//! \param[in] pDC          The target gfx_DeviceContext_t
-//! \param[in] pRect        Pointer to a data structure containing the rectangle dimensions
-//! \param[in] color        The color of the rectangle
+//! \param[in] pDC      The target gfx_DeviceContext_t
+//! \param[in] pRect    Pointer to a data structure containing the rectangle dimensions
+//! \param[in] color    The color of the rectangle
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_2d_Rectangle(gfx_DeviceContext_t *pDC, gfx_Rect_t *pRect, gfx_Color_t color);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Draw a rectangle onto the current context, clipped by the active clipping region.
 //! 
-//! \param[in] pDC          The target gfx_DeviceContext_t
-//! \param[in] left         Left edge of the rectangle
-//! \param[in] top          Top edge of the rectangle
-//! \param[in] right        Right edge of the rectangle
-//! \param[in] bottom       Bottom edge of the rectangle
-//! \param[in] color        The color of the rectangle
+//! \param[in] pDC      The target gfx_DeviceContext_t
+//! \param[in] left     Left edge of the rectangle
+//! \param[in] top      Top edge of the rectangle
+//! \param[in] right    Right edge of the rectangle
+//! \param[in] bottom   Bottom edge of the rectangle
+//! \param[in] color    The color of the rectangle
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_2d_RectangleByPoints(gfx_DeviceContext_t *pDC,int left, int top, int right, int bottom, gfx_Color_t color);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Draws a line onto the current context, clipped by the active clipping region.
 //! 
-//! \param[in] pDC          The target gfx_DeviceContext_t
-//! \param[in] x0           x of point 0
-//! \param[in] y0           y of point 0
-//! \param[in] x1           x of point 1
-//! \param[in] y1           y of point 1
-//! \param[in] color        The color of the line
+//! \param[in] pDC      The target gfx_DeviceContext_t
+//! \param[in] x0       x of point 0
+//! \param[in] y0       y of point 0
+//! \param[in] x1       x of point 1
+//! \param[in] y1       y of point 1
+//! \param[in] color    The color of the line
 //!
 //! \todo This function may be excess functionality than required.  The typical usage of line drawing
 //!       in our system is horizontal or vertical lines, which are much simpler to clip.
@@ -531,9 +520,9 @@ void gfx_2d_DrawLine(gfx_DeviceContext_t *pDC, int x0, int y0, int x1, int y1, g
 
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Offsets the origin of the gfx_DeviceContext_t
-//! \param[in] pDC          The gfx_DeviceContext_t to operate on to check within.
-//! \param[in] x            The x offset
-//! \param[in] y            The y offset
+//! \param[in] pDC  The gfx_DeviceContext_t to operate on to check within.
+//! \param[in] x    The x offset
+//! \param[in] y    The y offset
 ////////////////////////////////////////////////////////////////////////////////
 void gfx_org_Offset(gfx_DeviceContext_t *pDC, int x, int y);
 
@@ -541,25 +530,19 @@ void gfx_org_Offset(gfx_DeviceContext_t *pDC, int x, int y);
 //! \brief Returns the width (in pixels) for a text string in any encoding
 //!
 //!
-//! \param[in] StringType  String encoding format
-//! \param[in] StringPtr Pointer to the string to find the width of
-//! \param[in] pFont Pointer to a font to use for finding the width
+//! \param[in] StringType   String encoding format
+//! \param[in] StringPtr    Pointer to the string to find the width of
+//! \param[in] pFont        Pointer to a font to use for finding the width
 //! \return Width in pixels of the string.
 ////////////////////////////////////////////////////////////////////////////////
 //uint16_t gfx_text_GetStringWidth(txt_StringTypesEnum_t StringType, void* StringPtr, gfx_Font_t *pFont);
-
-typedef enum _paletteColor_t_ {
-	PALETTE_DRAW_COLOR = 0,
-	PALETTE_BG_COLOR = 1
-} paletteColor_t;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //! \brief Selects the current drawing color, returning the previous
 //! \returns The previous drawing color.
 //! \todo Come up with how this is really going to work.  This API hasn't been fully explored.
-//! \param[in] pDC          The gfx_DeviceContext_t to operate on to check within.
-//! \param[in] ...         The new drawing color
+//! \param[in] pDC  The gfx_DeviceContext_t to operate on to check within.
+//! \param[in] ...  The new drawing color
 //! \return previous draw color
 ////////////////////////////////////////////////////////////////////////////////
 gfx_Color_t gfx_2d_SetDrawColor(gfx_DeviceContext_t *pDC, gfx_Color_t);
@@ -568,8 +551,8 @@ gfx_Color_t gfx_2d_SetDrawColor(gfx_DeviceContext_t *pDC, gfx_Color_t);
 //! \brief Selects the current drawing color, returning the previous
 //! \returns The previous background color.
 //! \todo Come up with how this is really going to work.  This API hasn't been fully explored.
-//! \param[in] pDC          The gfx_DeviceContext_t to operate on to check within.
-//! \param[in] ...         The new background color
+//! \param[in] pDC  The gfx_DeviceContext_t to operate on to check within.
+//! \param[in] ...  The new background color
 //! \return previous background color
 ////////////////////////////////////////////////////////////////////////////////
 gfx_Color_t gfx_2d_SetBackgroundColor(gfx_DeviceContext_t *pDC, gfx_Color_t);
@@ -605,7 +588,7 @@ gfx_Color_t* gfx_2d_SetColorPalette(gfx_DeviceContext_t *pDC, gfx_Color_t *pPale
 //! \param[in]  pSrc     Pointer to the bitmap
 //! \param[in]  x        x position of the pixel
 //! \param[in]  y        y position of the pixel
-//! \param[out] pPixel     Pointer to a gfx_Color_t object to populate with the RGB color
+//! \param[out] pPixel   Pointer to a gfx_Color_t object to populate with the RGB color
 //!
 //! \return True if pixel is within the bitmap, false if not.
 ////////////////////////////////////////////////////////////////////////////////
@@ -619,10 +602,10 @@ bool gfx_bmp_GetPixel(gfx_Color_t *pPalette, gfx_Bitmap_t *pSrc, int x , int y, 
 //! calls the bitmap type specific set pixel function.
 //!
 //! \param[in] pPalette Pointer to the color palette
-//! \param[in] pSrc    Pointer to the bitmap
+//! \param[in] pSrc     Pointer to the bitmap
 //! \param[in] x        x position of the pixel
 //! \param[in] y        y position of the pixel
-//! \param[in] uPixel     RGB color to set
+//! \param[in] uPixel   RGB color to set
 //!
 //! \return True if pixel is within the bitmap, false if not.
 ////////////////////////////////////////////////////////////////////////////////
@@ -634,8 +617,8 @@ bool gfx_bmp_PutPixel(gfx_Color_t *pPalette, gfx_Bitmap_t *pSrc, int x , int y, 
 //! Returns a pointer to a newly allocated gfx_Bitmap_t object after populating it with bitmap data from
 //! the resource file.
 //!
-//! \param[in] uResourceID Resource ID to load.
-//! \param[in] pHndl Pointer to a handle to assign the handle for the memory allocated for the loaded resource.
+//! \param[in] uResourceID  Resource ID to load.
+//! \param[in] pHndl        Pointer to a handle to assign the handle for the memory allocated for the loaded resource.
 //!
 //! \return  Pointer to a newly allocated gfx_Bitmap_t object.
 //!
@@ -653,6 +636,14 @@ bool gfx_bmp_PutPixel(gfx_Color_t *pPalette, gfx_Bitmap_t *pSrc, int x , int y, 
 ////////////////////////////////////////////////////////////////////////////////
 uint32_t gfx_Initialize(uint16_t u16RectNodes, uint16_t u16ClipNodes);
 
+
+uint32_t gfx_2d_DeviceContextInit(gfx_Bitmap_t* pFrameBuffer, gfx_Color_t *pPalette,
+                                  uint16_t u16RectNodes, uint16_t u16ClipNodes);
+
+gfx_DeviceContext_t* gfx_2d_DeviceContextGet(void);
+gfx_RectNode_t *gfx_clip_Get(void);
+gfx_ClipNode_t *gfx_clip_GetClipNode(void);
+void gfx_clip_ReleaseClipChain(gfx_RectNode_t *pChain);
 #ifdef __cplusplus
 }
 #endif

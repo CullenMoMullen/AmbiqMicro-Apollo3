@@ -9,7 +9,7 @@
 //!
 ////////////////////////////////////////////////////////////////////////////////
 #include "types.h"
-
+#include "freertos_tetris.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // To view the documentation for this function, refer to gfx_format.h.
@@ -22,7 +22,7 @@ void gfx_PutPixel_1BPP_Ideal(gfx_Color_t *pPalette, gfx_Bitmap_t *pBitmap, uint1
 
     pData = &pData[y*((pBitmap->uWidth+7)/8)+ ((x)/8)];
     
-    if((cRGB & 0x00FFFFFF) == (pPalette[1] & 0x00FFFFFF))//if the color is the background color,compare RGB color only
+    if((cRGB & 0x00FFFFFF) == (pPalette[PALETTE_BG_COLOR_IDX] & 0x00FFFFFF))//if the color is the background color,compare RGB color only
         *pData &= ~uByte;
     else
         *pData |= uByte;
@@ -40,9 +40,9 @@ void gfx_GetPixel_1BPP_Ideal(gfx_Color_t *pPalette, gfx_Bitmap_t *pBitmap, uint1
     pData = &pData[y*((pBitmap->uWidth+7)/8)+ ((x)/8)];
 
     if(*pData & uByte)
-        *pRGB = pPalette[0];
+        *pRGB = pPalette[PALETTE_FG_COLOR_IDX];
     else
-        *pRGB = pPalette[1];
+        *pRGB = pPalette[PALETTE_BG_COLOR_IDX];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
